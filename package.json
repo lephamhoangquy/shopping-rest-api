@@ -1,0 +1,29 @@
+{
+  "name": "shopping-rest-api",
+  "version": "1.0.0",
+  "description": "ExpressJs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lephamhoangquy/shopping-rest-api.git"
+  },
+  "author": "QuyLe",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lephamhoangquy/shopping-rest-api/issues"
+  },
+  "homepage": "https://github.com/lephamhoangquy/shopping-rest-api#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.9",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3"
+  }
+}
