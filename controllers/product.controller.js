@@ -18,6 +18,7 @@ module.exports = {
         });
       }
     } catch (error) {
+      console.log(error);
       res.status(500).json({ error });
     }
   },
@@ -28,8 +29,61 @@ module.exports = {
       const ret = await productModel.findById(id);
       if (ret) {
         res.status(200).json(ret);
+      } else {
+        res.status(404).json({
+          message: "No invaild entry found for provided ID",
+        });
       }
     } catch (error) {
+      console.log(error);
+      res.status(500).json({ error });
+    }
+  },
+
+  getAllProduct: async (req, res) => {
+    try {
+      const ret = await productModel.find();
+      if (ret.length > 0) {
+        res.status(200).json(ret);
+      } else {
+        res.status(404).json({
+          message: "No entries found",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error });
+    }
+  },
+
+  removeById: async (req, res) => {
+    const id = req.params.productId;
+    try {
+      const ret = await productModel.remove({ _id: id });
+      if (ret) {
+        res.status(200).json(ret);
+      } else {
+        res.status(404).json({
+          message: "remove not successfully",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error });
+    }
+  },
+
+  updateProduct: async (req, res) => {
+    const id = req.params.productId;
+    const updateOps = {};
+    for (let ops of req.body) {
+      updateOps[ops.propName] = ops.value;
+    }
+    try {
+      const ret = await productModel.update({ _id: id }, { $set: updateOps });
+      res.status(200).json(ret);
+    } catch (error) {
+      console.log(error);
       res.status(500).json({ error });
     }
   },
