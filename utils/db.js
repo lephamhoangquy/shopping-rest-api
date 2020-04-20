@@ -5,6 +5,7 @@ const connectDB = async (connectionStr) => {
     let db = await mongoose.connect(connectionStr, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      useCreateIndex: true,
     });
     if (db) {
       console.log(`Connected to MongoDB successfully ${db.connection.host}`);
