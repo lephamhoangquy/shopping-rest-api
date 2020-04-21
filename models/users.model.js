@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const randToken = require("rand-token");
 
 const userSchema = mongoose.Schema({
   username: {
@@ -28,12 +29,14 @@ const userSchema = mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
+  refreshToken: String,
 });
 
 userSchema.pre("save", async function (next) {
   const user = this;
   if (user.isModified()) {
     user.password = await bcrypt.hash(user.password, 8);
+    user.refreshToken = randToken.generate(80);
   }
   next();
 });
@@ -51,13 +54,18 @@ userSchema.statics.findByCredentials = async (username, password) => {
   return user;
 };
 
-userSchema.methods.generateAccessToken = async function () {
+userSchema.statics.generateAccessToken = async function (id) {
   // Generate an auth token for the user
-  const user = this;
-  const accessToken = jwt.sign({ _id: user._id }, process.env.JWT_KEY, {
+  const accessToken = jwt.sign({ _id: id }, process.env.JWT_KEY, {
     expiresIn: "5m",
   });
   return accessToken; // don't have save accessToken in database
+};
+
+userSchema.statics.verfityRefreshToken = async function (id, token) {
+  let user = await User.findOne({ _id: id });
+  if (user && user.refreshToken === token) return true;
+  return false;
 };
 
 const User = mongoose.model("user", userSchema);
