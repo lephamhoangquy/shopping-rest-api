@@ -57,7 +57,7 @@ userSchema.statics.findByCredentials = async (username, password) => {
 userSchema.statics.generateAccessToken = async function (id) {
   // Generate an auth token for the user
   const accessToken = jwt.sign({ _id: id }, process.env.JWT_KEY, {
-    expiresIn: "5m",
+    expiresIn: "24h",
   });
   return accessToken; // don't have save accessToken in database
 };

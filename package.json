@@ -25,6 +25,7 @@
     "express-async-errors": "^3.1.1",
     "http-errors": "^1.7.3",
     "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.15",
     "mongoose": "^5.9.9",
     "morgan": "^1.10.0",
     "rand-token": "^1.0.1",

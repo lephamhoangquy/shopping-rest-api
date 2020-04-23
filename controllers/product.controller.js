@@ -12,15 +12,30 @@ module.exports = {
 
   getProductById: async (req, res) => {
     const id = req.params.productId;
-    const ret = await productModel.findById(id);
+    const ret = await productModel.get(id);
     if (!ret) return res.status(204).end();
     res.status(200).json(ret);
   },
 
   getAllProduct: async (req, res) => {
-    const ret = await productModel.find();
+    const {
+      category = "",
+      brand = "",
+      sort = "quantity",
+      sorter = "desc",
+      limit = 50,
+      skip = 0,
+    } = req.query;
+    const ret = await productModel.list({
+      category,
+      brand,
+      sort,
+      sorter,
+      limit,
+      skip,
+    });
     if (ret.length === 0) return res.status(204).end();
-    res.status(200).json(ret);
+    res.status(200).json({ data: ret, count: ret.length });
   },
 
   removeById: async (req, res) => {
